@@ -8,6 +8,7 @@ app.use(express.json());
 const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 
 const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN;
+const PORT = process.env.PORT || 4242;
 
 app.post("/create-checkout-session", async (req, res) => {
   const prices = await stripe.prices.list({
@@ -116,4 +117,4 @@ app.post(
   }
 );
 
-app.listen(4242, () => console.log("Running on port 4242"));
+app.listen(PORT, () => console.log(`Running on port ${PORT}`));
