@@ -1,13 +1,15 @@
-// This is your real test secret API key.
 require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const supabaseJs = require("@supabase/supabase-js");
+const morgan = require("morgan");
+
 app.use(cors());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan("tiny"));
 const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 
 const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN;
@@ -108,7 +110,7 @@ const handleSubscriptionCreated = async (subscription) => {
 };
 
 const handleSubscriptionDeleted = async (subscription) => {
-  console.log(`deleting subscription ${subscription.id}`)
+  console.log(`deleting subscription ${subscription.id}`);
   await supabase.from("subscriptions").delete().match({
     id: subscription.id,
   });
